@@ -19,6 +19,7 @@ class User extends Authenticatable implements MustVerifyEmailContract
         'password',
         'introduction',
         'avatar',
+        'avatar2',
     ];
 
     protected $hidden = [
@@ -30,8 +31,8 @@ class User extends Authenticatable implements MustVerifyEmailContract
         'email_verified_at' => 'datetime',
     ];
 
-    public function getAvatarAttribute($value)
+    public function getAvatar2Attribute($value)
     {
-        return Storage::disk('public')->url($value);
+        return Storage::disk('public')->url($this->avatar);
     }
 }
