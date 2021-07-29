@@ -35,8 +35,6 @@ class UsersController extends Controller
             $result = $uploader->save($request->avatar, 'avatars', 416);
             if ($result) {
                 $data['avatar'] = $result['path'];
-            } else {
-                // todo 异常处理
             }
         }
 
