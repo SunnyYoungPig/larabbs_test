@@ -33,7 +33,7 @@ class User extends Authenticatable implements MustVerifyEmailContract
 
     public function getAvatar2Attribute($value)
     {
-        return Storage::disk('public')->url($this->avatar);
+        return strstr($this->avatar, 'http://') || strstr($this->avatar, 'https://') ? $this->avatar : Storage::disk('public')->url($this->avatar);
     }
 
     public function topics()
