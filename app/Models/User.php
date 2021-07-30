@@ -15,7 +15,7 @@ class User extends Authenticatable implements MustVerifyEmailContract
     use HasFactory, Notifiable, MustVerifyEmailTrait;
     use HasRoles;
     use Traits\ActiveUserHelper;
-
+    use Traits\LastActivedAtHelper;
 
     protected $fillable = [
         'name',
