@@ -12,7 +12,10 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmailContract
 {
-    use HasFactory, Notifiable, MustVerifyEmailTrait, HasRoles;
+    use HasFactory, Notifiable, MustVerifyEmailTrait;
+    use HasRoles;
+    use Traits\ActiveUserHelper;
+
 
     protected $fillable = [
         'name',
