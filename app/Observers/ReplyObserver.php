@@ -18,7 +18,7 @@ class ReplyObserver
 
     public function created(Reply $reply)
     {
-        if ($reply->topic->user->id != Auth::id()) {    //不要通知话题的作者本人
+        if (! app()->runningInConsole() && $reply->topic->user->id != Auth::id()) {    //不要通知话题的作者本人
             if (method_exists(TopicReplied::class, 'toDatabase')) {
                 $reply->topic->user->increment('notification_count');   //只有数据库类型通知才需提醒，直接发送 Email 或者其他的都 Pass
             }
