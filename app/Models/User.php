@@ -32,10 +32,10 @@ class User extends Authenticatable implements MustVerifyEmailContract
         'email_verified_at' => 'datetime',
     ];
 
-    public function getAvatar2Attribute($value)
-    {
-        return strstr($this->avatar, 'http://') || strstr($this->avatar, 'https://') ? $this->avatar : Storage::disk('public')->url($this->avatar);
-    }
+    // public function getAvatarAttribute($value)
+    // {
+    //     return \Str::startsWith($value, 'http') ? $value : Storage::disk('public')->url($value);
+    // }
 
     public function topics()
     {
@@ -57,5 +57,30 @@ class User extends Authenticatable implements MustVerifyEmailContract
         $this->notification_count = 0;
         $this->save();
         $this->unreadNotifications->markAsRead();
+    }
+
+    public function setPasswordAttribute($value)
+    {
+        // 如果值的长度等于 60，即认为是已经做过加密的情况
+        if (strlen($value) != 60) {
+
+            // 不等于 60，做密码加密处理
+            $value = bcrypt($value);
+        }
+
+        $this->attributes['password'] = $value;
+    }
+
+    public function setAvatarAttribute($path)
+    {
+        if (!\Str::startsWith($path, 'http')) {
+            if (!\Str::startsWith($path, 'avatars')) {
+                $path = Storage::disk('public')->url('avatars/' . $path);
+            } else {
+                $path = Storage::disk('public')->url($path);
+            }
+        }
+
+        $this->attributes['avatar'] = $path;
     }
 }
