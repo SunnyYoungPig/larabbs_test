@@ -23,7 +23,6 @@ class User extends Authenticatable implements MustVerifyEmailContract
         'password',
         'introduction',
         'avatar',
-        'avatar2',
     ];
 
     protected $hidden = [
@@ -35,10 +34,10 @@ class User extends Authenticatable implements MustVerifyEmailContract
         'email_verified_at' => 'datetime',
     ];
 
-    // public function getAvatarAttribute($value)
-    // {
-    //     return \Str::startsWith($value, 'http') ? $value : Storage::disk('public')->url($value);
-    // }
+    public function getAvatarAttribute($value)
+    {
+        return \Str::startsWith($value, 'http') ? $value : Storage::disk('public')->url($value);
+    }
 
     public function topics()
     {
@@ -78,9 +77,7 @@ class User extends Authenticatable implements MustVerifyEmailContract
     {
         if (!\Str::startsWith($path, 'http')) {
             if (!\Str::startsWith($path, 'avatars')) {
-                $path = Storage::disk('public')->url('avatars/' . $path);
-            } else {
-                $path = Storage::disk('public')->url($path);
+                $path = 'avatars/' . $path;
             }
         }
 
